@@ -4,24 +4,21 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
 
-// Connexion à la base de données MongoDB
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-})
-  .then(() => console.log('MongoDB connected'))
-  .catch((error) => console.error('MongoDB connection failed:', error));
+}).then(() => console.log('MongoDB connected')).catch((error) => console.error('MongoDB connection failed:', error));
 
-// Définir les routes
 app.use('/api/auth', authRoutes);
+app.use('/api/user', userRoutes);
 
-// Port d'écoute
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
